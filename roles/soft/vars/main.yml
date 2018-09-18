@@ -1,0 +1,4 @@
+---
+packages:
+  # pip need for install python-mysqldb
+  - python3-pip

@@ -1,0 +1,24 @@
+---
+- name: install mysql stuff
+  apt:
+    name: "{{item}}"
+  with_items:
+    - python3-mysqldb
+    - mysql-server
+- name: create mysql user
+  mysql_user:
+    name: "{{db_user_name}}"
+    password: "{{db_user_pass}}"
+    priv: "{{db_name}}.*:ALL"
+    host: localhost
+    state: present
+- name: create database
+  mysql_db:
+    login_user: "{{db_user_name}}"
+    login_password: "{{db_user_pass}}"
+    name: "{{db_name}}"
+    state: present
+- name: copy mysql config
+  template: src=mysql-config.j2 dest=/etc/my.cnf
+- name: restart mysql 
+  service: name=mysql state=restarted enabled=yes

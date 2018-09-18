@@ -1,0 +1,35 @@
+server { 
+  listen 80;
+  listen [::]:80;
+  server_name {{host_name}};
+
+  root {{wp_path}};
+
+  index index.php;
+
+  location = /favicon.ico {
+    log_not_found off;
+    access_log off;
+  }
+  location = /robots.txt {
+    allow all;
+    log_not_found off;
+    access_log off;
+  }
+
+  location ~* /(?:uploads|files)/.*\.php$ { 
+    deny all;                                                                                                                        
+  }    
+  location / {
+    try_files $uri $uri/ =404 /index.php?$args;
+  }
+
+  location ~* \.(gif|jpg|jpeg|png|css|js|woff2|woff|ttf|otf|ico)$ { 
+    expires max;
+  }
+  location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+
+  }
+}

@@ -1,0 +1,16 @@
+---
+- name: add user
+  user:
+    name: "{{user_name}}"
+    create_home: yes
+    password: "{{user_pass}}"
+    state: present
+- name: add group for wordpress
+  group: name=wordpress
+- name: add wordpress user
+  user:
+    name: "{{wp_user_name}}"
+    password: "{{wp_user_pass}}"
+    group: wordpress
+    home: "{{wp_path}}"
+

@@ -1,0 +1,7 @@
+---
+- name: install packages from apt
+  become: yes  
+  become_user: root
+  apt:
+    update_cache: yes
+    name: "{{packages}}"
