@@ -4,31 +4,26 @@
   local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
   register: "wp_salt"
 - name: get md5 checksum for the wordpress download
-  become: no
   local_action: command curl https://ru.wordpress.org/wordpress-{{wp_version}}-{{wp_lang}}.tar.gz.md5
   register: "wp_md5"
 - name: download wordpress
-  become: no
   get_url: 
     url: https://ru.wordpress.org/wordpress-{{wp_version}}-{{wp_lang}}.tar.gz 
     dest: /var/tmp/wordpress.tar.gz 
     checksum: md5:"{{wp_md5.stdout}}"
 - name: extract wordpress to the wordpress directory
-  become: yes
-  become_user: "{{wp_user_name}}"
   unarchive:
     src: /var/tmp/wordpress.tar.gz
     dest: /var/www/html
     remote_src: yes
 - name: copy wordpress config
-  become: yes
-  become_user: "{{wp_user_name}}"
   template:
     src: wp-config.php
     dest: "{{wp_path}}"
     mode: 0655
 - name: change ownership of wordpress directory
-  file: path={{wp_path}} owner={{wp_user_name}} group=wordpress state=directory recurse=yes 
+  file: 
+    path={{wp_path}} owner={{wp_user_name}} group=wordpress state=directory recurse=yes 
 - name: start php-fpm 
   service: 
     name: php7.0-fpm 
