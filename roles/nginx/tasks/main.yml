@@ -21,5 +21,9 @@
   file:
     path: /etc/nginx/sites-enabled/default
     state: absent
+- name: remove default config
+  file:
+    path: /etc/nginx/sites-available/default
+    state: absent
   notify: restart nginx
 
