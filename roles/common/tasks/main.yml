@@ -4,13 +4,21 @@
     name: "{{user_name}}"
     create_home: yes
     password: "{{user_pass}}"
+    shell: /bin/bash
     state: present
 - name: add group for wordpress
   group: name=wordpress
+- name: create home directory for wordpress 
+  file:
+    path: "{{wp_path}}"
+    recurse: yes
+    state: directory
+
 - name: add wordpress user
   user:
     name: "{{wp_user_name}}"
     password: "{{wp_user_pass}}"
     group: wordpress
     home: "{{wp_path}}"
-
+    shell: /bin/bash
+    state: present
