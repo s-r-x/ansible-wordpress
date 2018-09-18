@@ -1,0 +1,22 @@
+---
+# tasks file for firewall
+- name: install ufw
+  apt:
+    name: ufw
+- name: deny everything by default
+  ufw:
+    state: enabled
+    policy: deny
+- name: allow http
+  ufw:
+    rule: allow
+    port: 80
+- name: allow https
+  ufw:
+    rule: allow
+    port: 443
+- name: allow ssh
+  ufw: 
+    rule: allow
+    port: 22
+

@@ -3,6 +3,7 @@
   become_user: root
   roles:
     - common
+    - firewall
     - php
     - soft
     - nginx

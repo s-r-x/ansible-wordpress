@@ -1,6 +1,7 @@
 ---
 - name: install php stuff
   apt:
+    update_cache: yes
     name: "{{packages}}"
 - name: Disable default pool
   become: yes

@@ -1,9 +1,12 @@
 ---
 - name: Fetch random salts for WordPress config
-  become: no 
+  become: no
+  become_method: sudo
   local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
   register: "wp_salt"
 - name: get md5 checksum for the wordpress download
+  become: no
+  become_method: sudo
   local_action: command curl https://ru.wordpress.org/wordpress-{{wp_version}}-{{wp_lang}}.tar.gz.md5
   register: "wp_md5"
 - name: download wordpress
